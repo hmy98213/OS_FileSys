@@ -31,6 +31,7 @@ int shell(int user_id,char *str){
 	char* token,*tstr,*buf;
 	short mode;
 	short fd;
+    int fd1;
 	int cid,size;
 	token = strtok(str,seps);
 	if(token == NULL)
@@ -69,12 +70,12 @@ int shell(int user_id,char *str){
 			sscanf(token,"%o",&mode);
 		}
 		mode = mode|DIFILE|0700;
-		fd = creat(user_id,tstr,mode);
-		if(fd == -1){
+		fd1 = creat(user_id,tstr,mode);
+		if(fd1 == -1){
 			printf("创建文件失败！\n");
 			break;
 		}
-		close(user_id,fd);
+		close(user_id,fd1);
 		break;
 	case 5:
 		token = strtok(NULL,seps);

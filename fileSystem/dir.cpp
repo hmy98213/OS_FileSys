@@ -46,7 +46,7 @@ void mkdir(char *dirname){
 
 	dirid= namei(dirname);
 	if (dirid != -1){
-		inode = iget(dirid);
+		inode = iget(dir.direct[dirid].d_ino);
 		if (inode->di_mode & DIDIR)
 			printf("目录%s已存在！\n", dirname); //xiao
 		else
