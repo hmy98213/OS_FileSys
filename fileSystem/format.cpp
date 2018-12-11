@@ -13,25 +13,79 @@ void format(){
 	memset(disk, 0x00, ((DINODEBLK+FILEBLK+2)*BLOCKSIZ));
 
 	/* 0.initialize the passwd */
-	passwd[0].p_uid = 2116;
-	passwd[0].p_gid = 03;
-	strcpy(passwd[0].password, "dddd");
+	//	passwd[0].p_uid = 2116;
+//	passwd[0].p_gid = 03;
+//	strcpy(passwd[0].password, "dddd");
+//
+//	passwd[1].p_uid = 2117;
+//	passwd[1].p_gid = 03;
+//	strcpy(passwd[1].password, "bbbb");
+//
+//	passwd[2].p_uid = 2118;
+//	passwd[2].p_gid = 04;
+//	strcpy(passwd[2].password, "abcd");
+//
+//	passwd[3].p_uid = 2119;
+//	passwd[3].p_gid = 04;
+//	strcpy(passwd[3].password, "cccc");
+//
+//	passwd[4].p_uid = 2120;
+//	passwd[4].p_gid = 05;
+//	strcpy(passwd[4].password, "eeee");
+//
+//	FILE* ofile;
+//	if((ofile=fopen("user.txt", "w")) == NULL){
+//		printf("1");
+//		exit(0);
+//	}
+//
+//	char file_id[][PWDSIZ] = {
+//			"2116", "2117", "2118", "2119", "2120"
+//	};
+//	char file_mode[][PWDSIZ] = {
+//			"03", "04", "04", "04", "05"
+//	};
+//	char file_pd[][PWDSIZ] = {
+//			"dddd", "bbbb", "abcd", "cccc", "eeee"
+//	};
+//	for(int i = 0; i < 5; i++)
+//	{
+//		fputs(file_id[i], ofile);
+//		fputs("\n", ofile);
+//		fputs(file_mode[i], ofile);
+//		fputs("\n", ofile);
+//		fputs(file_pd[i], ofile);
+//		fputs("\n", ofile);
+//	}
+//	fclose(ofile);
 
-	passwd[1].p_uid = 2117;
-	passwd[1].p_gid = 03;
-	strcpy(passwd[1].password, "bbbb");
+	FILE *ifile;
 
-	passwd[2].p_uid = 2118;
-	passwd[2].p_gid = 04;
-	strcpy(passwd[2].password, "abcd");  
-
-	passwd[3].p_uid = 2119;
-	passwd[3].p_gid = 04;
-	strcpy(passwd[3].password, "cccc");
-
-	passwd[4].p_uid = 2120;
-	passwd[4].p_gid = 05;
-	strcpy(passwd[4].password, "eeee");
+	if((ifile=fopen("user.txt", "r")) == NULL) {
+		getchar();
+		exit(0);
+	}
+	for(int i = 0; i < 5 * 3; i++)
+	{
+		if(i% 3 == 0){
+			char temp[PWDSIZ];
+			fgets(temp, PWDSIZ, ifile);
+			passwd[i / 3].p_uid = short(atoi(temp));
+		}
+		else if(i % 3 == 1){
+			char temp[PWDSIZ];
+			fgets(temp, PWDSIZ, ifile);
+			passwd[i / 3].p_gid = short(atoi(temp));
+		}
+		else if(i % 3 == 2){
+			char temp[PWDSIZ];
+			fgets(temp, PWDSIZ, ifile);
+			int len = strlen(temp);
+			temp[len - 1] = '\0';
+			strcpy(passwd[i / 3].password, temp);
+		}
+	}
+	fclose(ifile);
 
 	/* 1.creat the main directory and its sub dir etc and the file password */
 

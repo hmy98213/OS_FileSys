@@ -100,6 +100,26 @@ void passwd(int user_id,char* passwd) {
     if (i==PWDNUM) {
         printf("系统错误，请联系运营商\n");
     }
+
+    FILE* ofile;
+    if((ofile=fopen("user.txt", "w")) == NULL){
+        printf("1");
+        exit(0);
+    }
+    for(int i = 0; i < PWDNUM; i++)
+    {
+        char temp_id[PWDSIZ];
+        char temp_mode[PWDSIZ];
+        sprintf(temp_id, "%d", pwd[i].p_uid);
+        sprintf(temp_mode, "%d", pwd[i].p_gid);
+        fputs(temp_id, ofile);
+        fputs("\n", ofile);
+        fputs(temp_mode, ofile);
+        fputs("\n", ofile);
+        fputs(pwd[i].password, ofile);
+        fputs("\n", ofile);
+    }
+    fclose(ofile);
 }
 
 void usershow(int user_id) {

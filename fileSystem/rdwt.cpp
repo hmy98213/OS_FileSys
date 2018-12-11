@@ -51,7 +51,7 @@
 	}
 	//add by liwen to check the filesize and alloc the BLOCK
 	off = sys_ofile[user[user_id].u_ofile[fd]].f_off;
-	block = ((off+size)-inode->di_size)/BLOCKSIZ;//ÉÐÐè¸öÊý
+	block = ((off+size)-inode->di_size)/BLOCKSIZ;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(((off+size)-inode->di_size)%BLOCKSIZ)
 		block++;
 	if(filsys.s_nfree < block){
@@ -89,7 +89,8 @@
 		temp_buf += BLOCKSIZ;
 	}
 	block_off = (size-(BLOCKSIZ-block_off)) % BLOCKSIZ;
-	memcpy(disk+DATASTART+block*BLOCKSIZ, temp_buf, block_off);
+	// memcpy(disk+DATASTART+block*BLOCKSIZ, temp_buf, block_off);
+	memcpy(disk + DATASTART + inode->di_addr[block + 1 + i] * BLOCKSIZ, temp_buf, block_off);
 	sys_ofile[user[user_id].u_ofile[fd]].f_off += size;
 	return size;
 }
